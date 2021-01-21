@@ -6,7 +6,7 @@ namespace Domain.Models
 {
     public class Store
     {
-        public int StoreId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
     }
