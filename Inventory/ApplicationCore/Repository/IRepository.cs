@@ -9,5 +9,6 @@ namespace ApplicationCore.Repository
     {
         Task<T> GetByIdAsync(int id);
         Task<IReadOnlyList<T>> ListAllAsync();
+        Task<T> AddAsync(T entity);
     }
 }

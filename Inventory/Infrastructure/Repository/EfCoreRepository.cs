@@ -15,14 +15,22 @@ namespace Infrastructure.Repository
         {
             db = context;
         }
-        public Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await db.Set<T>().FindAsync(id);
         }
 
         public virtual async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await db.Set<T>().ToListAsync();
+        }
+
+        public virtual async Task<T> AddAsync(T entity)
+        {
+            await db.Set<T>().AddAsync(entity);
+            await db.SaveChangesAsync();
+
+            return entity;
         }
     }
 }

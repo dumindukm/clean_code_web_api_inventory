@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Inventory.Queries;
+using AutoMapper;
 using Domain.Models;
+using InventoryAPI.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +17,19 @@ namespace InventoryAPI.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly ISender mediator;
+        private readonly IMapper mapper;
 
-        public InventoryController(ISender sender) => mediator = sender;
+        public InventoryController(ISender sender, IMapper map)
+        {
+            this.mediator = sender;
+            this.mapper = map;
+        }
 
 
         [HttpGet("products")]
-        public async Task<IEnumerable<Product>> GetAsync([FromBody] GetProducts query)
+        public async Task<IEnumerable<ProductViewModel>> GetAsync([FromQuery] GetProducts query)
         {
-            var products = await mediator.Send(query);// TO DO : Response wrapping
+            var products = this.mapper.Map<IEnumerable<ProductViewModel>>( await mediator.Send(query));// TO DO : Response wrapping
             return products;
         }
 

@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Store_cq.Queries;
+﻿using ApplicationCore.Store_cq.Commands;
+using ApplicationCore.Store_cq.Queries;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,18 +19,27 @@ namespace InventoryAPI.Controllers
 
         public StoreController(ISender sender) => mediator = sender;
 
-        [HttpGet("stores/id/{id}")]
-        public async Task<Store> GetAsync([FromRoute] int id)
+        [HttpGet("stores/id/{id:int}")]
+        public async Task<IEnumerable<Store>> GetAsync([FromRoute] int id)
         {
-            
-            return new Store();
+            GetStores query = new GetStores();
+            var stores = await mediator.Send(query);// TO DO : Response wrapping and in GetStoreshandler use specification pattern
+            return stores;
         }
 
-        [HttpPost("stores")]
-        public async Task<IEnumerable<Store>> GetAsync([FromBody] GetStores query)
+        [HttpGet("stores")]
+        public async Task<IEnumerable<Store>> GetAsync([FromQuery] GetStores query)
         {
             var stores = await mediator.Send(query);// TO DO : Response wrapping
             return stores;
         }
+
+        [HttpPost("stores")]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateStore query)
+        {
+            var storeId = await mediator.Send(query);
+            return CreatedAtAction(nameof(GetAsync), new { id = storeId }, storeId);
+        }
+
     }
 }
