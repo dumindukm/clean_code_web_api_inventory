@@ -9,7 +9,14 @@ namespace ApplicationCore.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddApplicationCorDependencies(this IServiceCollection services) =>
+        public static IServiceCollection AddApplicationCorDependencies(this IServiceCollection services)
+        {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
+        }
+            
+        
     }
 }

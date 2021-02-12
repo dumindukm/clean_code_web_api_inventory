@@ -9,13 +9,12 @@ namespace ApplicationCore.PurchaseOrder_cq.Commands
     public class CreatePurchaseOrder : IRequest<int>
     {
         public int StoreId { get; set; }
-        public IEnumerable<OrderItem> OrderedItems => new List<OrderItem>();
+        public IEnumerable<OrderItem> OrderedItems { get; set; }
     }
     public class OrderItem
     {
-        public string ProductCode { get; set; }
+        public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationCore.Store_cq.Queries
+namespace ApplicationCore.PurchaseOrder_cq.Queries
 {
-    public class GetStores : IRequest<IEnumerable<Store>>
+    public class GetPurchaseOrders : IRequest<IEnumerable<PurchaseOrder>>
     {
         public int PageId { get; set; } = 1;
         public int PageSize { get; set; } = 50;

@@ -23,6 +23,7 @@ namespace InventoryAPI.Controllers
         public async Task<IEnumerable<Store>> GetAsync([FromRoute] int id)
         {
             GetStores query = new GetStores();
+            query.StoreId = id;
             var stores = await mediator.Send(query);// TO DO : Response wrapping and in GetStoreshandler use specification pattern
             return stores;
         }

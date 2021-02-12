@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Repository;
+using AutoMapper;
 using Domain.Models;
 using MediatR;
 using System;
@@ -12,13 +13,35 @@ namespace ApplicationCore.PurchaseOrder_cq.Commands
     public class CreatePurchaseOrderHandler : IRequestHandler<CreatePurchaseOrder, int>
     {
         private readonly IRepository<PurchaseOrder> purchaseorderRepository;
-        public CreatePurchaseOrderHandler(IRepository<PurchaseOrder> repository)
+        private readonly IRepository<Product> productRepository;
+        private readonly IMapper mapper;
+        public CreatePurchaseOrderHandler(IRepository<PurchaseOrder> porepository, IRepository<Product> prepository, IMapper map)
         {
-            this.purchaseorderRepository = repository;
+            this.purchaseorderRepository = porepository;
+            this.productRepository = prepository;
+            this.mapper = map;
         }
-        public Task<int> Handle(CreatePurchaseOrder request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreatePurchaseOrder request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            PurchaseOrder po = new PurchaseOrder
+            {
+                StoreId = request.StoreId
+            };
+
+            foreach (var item in request.OrderedItems)
+            {
+                var product = await productRepository.GetByIdAsync(item.ProductId);
+                po.AddOrderItem(new PurchaseOrderItem { 
+                Quantity = item.Quantity,
+                Discount = item.Discount,
+                UnitPrice = product.UnitPrice,
+                ProductCode = product.Code,
+                ProductId = product.Id
+                });
+            }
+
+            await purchaseorderRepository.AddAsync(po);
+            return po.Id;
         }
     }
 }
