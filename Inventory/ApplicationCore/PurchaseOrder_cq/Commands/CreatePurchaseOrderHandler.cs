@@ -32,11 +32,11 @@ namespace ApplicationCore.PurchaseOrder_cq.Commands
             {
                 var product = await productRepository.GetByIdAsync(item.ProductId);
                 po.AddOrderItem(new PurchaseOrderItem { 
-                Quantity = item.Quantity,
-                Discount = item.Discount,
-                UnitPrice = product.UnitPrice,
-                ProductCode = product.Code,
-                ProductId = product.Id
+                    Quantity = item.Quantity,
+                    Discount = item.Discount,
+                    UnitPrice = product.UnitPrice,
+                    ProductCode = product.Code,
+                    ProductId = product.Id
                 });
             }
 

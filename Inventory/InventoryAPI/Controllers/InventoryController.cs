@@ -5,6 +5,7 @@ using InventoryAPI.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace InventoryAPI.Controllers
     {
         private readonly ISender mediator;
         private readonly IMapper mapper;
+        private readonly ILogger<InventoryController> logger;
 
-        public InventoryController(ISender sender, IMapper map)
+        public InventoryController(ISender sender, IMapper map, ILogger<InventoryController> logger)
         {
             this.mediator = sender;
             this.mapper = map;
+            this.logger = logger;
         }
 
 
