@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Domain.SeedWork;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Domain.Models
 {
-    public class PurchaseOrder
+    public class PurchaseOrder : Entity
     {
         public int Id { get; set; }
         public int OrderCount => PurchaseOrderItems.Count();

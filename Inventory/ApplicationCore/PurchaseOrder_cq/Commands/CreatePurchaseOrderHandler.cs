@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Repository;
 using AutoMapper;
 using Domain.Models;
+using Domain.PurchaseOrders.Events;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace ApplicationCore.PurchaseOrder_cq.Commands
                     ProductId = product.Id
                 });
             }
+            po.AddDomainEvent(new PurchaseOrderCreated(po.Id, po.OrderCount, po.Total));
 
             await purchaseorderRepository.AddAsync(po);
             return po.Id;
